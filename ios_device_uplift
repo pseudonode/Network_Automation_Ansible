@@ -1,0 +1,134 @@
+---
+
+
+ - name: DC Switch Uplift
+   connection: local
+   hosts: all
+   gather_facts: false
+   ignore_errors: True
+   vars:
+    cli:
+     host: "{{ inventory_hostname }}"
+     username: "ansible"
+     password: ansible
+     authorize: true
+     auth_pass: ansible
+     transport: cli
+    backup_root: ./backups
+
+     
+    
+   tasks:
+
+     - name: Ensure Backup Folder is Created
+       file:
+         path: "{{ backup_root }}"
+         state: directory
+
+     - name: Show Running Configuration
+       register: show_run
+       ios_command:
+         commands:
+          - show run
+         provider: "{{ cli }}"
+     - debug: var=show_run.stdout_lines
+
+     - copy:
+         content: "{{ show_run.stdout[0] }}"
+         dest: "{{ backup_root }}/{{ inventory_hostname }}_show_run.txt"
+
+     - name: Show Module
+       register: show_module
+       ios_command:
+         commands:
+          - show module
+         provider: "{{ cli }}"
+     - debug: var=show_module.stdout_lines
+
+     - copy:
+         content: "{{ show_module.stdout[0] }}"
+         dest: "{{ backup_root }}/{{ inventory_hostname }}_show_module.txt"
+
+     - name: Show Switch
+       register: show_switch
+       ios_command:
+         commands:
+          - show switch
+         provider: "{{ cli }}"
+     - debug: var=show_switch.stdout_lines
+
+     - copy:
+         content: "{{ show_switch.stdout[0] }}"
+         dest: "{{ backup_root }}/{{ inventory_hostname }}_show_switch.txt"
+
+     - name: Show Version
+       register: show_version
+       ios_command:
+         commands:
+          - show version
+         provider: "{{ cli }}"
+     - debug: var=show_version.stdout_lines
+
+     - copy:
+         content: "{{ show_version.stdout[0] }}"
+         dest: "{{ backup_root }}/{{ inventory_hostname }}_show_version.txt"
+
+     - name: Show CDP Neighbors
+       register: show_cdp
+       ios_command:
+         commands:
+          - show cdp neighbors
+         provider: "{{ cli }}"
+     - debug: var=show_cdp.stdout_lines
+
+     - copy:
+         content: "{{ show_cdp.stdout[0] }}"
+         dest: "{{ backup_root }}/{{ inventory_hostname }}_show_cdp_neighbors.txt"
+
+     - name: Show Interfaces Status
+       register: show_int_status
+       ios_command:
+         commands:
+          - show interface status
+         provider: "{{ cli }}"
+     - debug: var=show_int_status.stdout_lines
+
+     - copy:
+         content: "{{ show_int_status.stdout[0] }}"
+         dest: "{{ backup_root }}/{{ inventory_hostname }}_show_interface_status.txt"
+
+     - name: Show Interfaces Description
+       register: show_int_desc
+       ios_command:
+         commands:
+          - show interface description
+         provider: "{{ cli }}"
+     - debug: var=show_int_desc.stdout_lines
+
+     - copy:
+         content: "{{ show_int_desc.stdout[0] }}"
+         dest: "{{ backup_root }}/{{ inventory_hostname }}_show_interface_description.txt"
+
+     - name: Show IP EIGRP Neighbors
+       register: show_ip_eigrp_neighbors
+       ios_command:
+         commands:
+          - show ip eigrp neighbors
+         provider: "{{ cli }}"
+     - debug: var=show_ip_eigrp_neighbors.stdout_lines
+
+     - copy:
+         content: "{{ show_ip_eigrp_neighbors.stdout[0] }}"
+         dest: "{{ backup_root }}/{{ inventory_hostname }}_show_ip_eigrp_neighbors.txt"
+
+     - name: Show IP Route
+       register: show_ip_route
+       ios_command:
+         commands:
+          - show ip route
+         provider: "{{ cli }}"
+     - debug: var=show_ip_route.stdout_lines
+
+     - copy:
+         content: "{{ show_ip_route.stdout[0] }}"
+         dest: "{{ backup_root }}/{{ inventory_hostname }}_show_ip_route.txt"
