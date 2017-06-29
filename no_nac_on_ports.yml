@@ -31,9 +31,9 @@
        ios_facts:
         gather_subset: "interfaces"
         username: "ansible"
-        password : Ansibl3!#
+        password : "ansible"
         authorize: true
-        auth_pass: Ansibl3!#
+        auth_pass: "ansible"
         provider: "{{ cli }}"
 
      - name: Populate Interfaces to a list called interfaces
