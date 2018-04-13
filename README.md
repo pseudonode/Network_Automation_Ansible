@@ -1,4 +1,4 @@
 # Network_Automation_Ansible
-This github repo exists for the purposes of sharing Ansible scripts for network automation tasks.
+The purpose of this Ansible playbook is to connect to multiple devices and issue a series of commands and then copying the output of those commands to a .txt file
 
-I am not a developer so my code will probably be dirty, inneficient but it gets the job done for the task at hand :)
+It has proven useful for large network audits where dozens of commands in dozens or potentially hundreds of devices need to be retrieved as part of information gathering activities.
